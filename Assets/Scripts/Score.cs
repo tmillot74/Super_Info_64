@@ -13,6 +13,14 @@ public class Score : MonoBehaviour
 
     private bool hasPlayer = false;
 
+
+    /* animation porte */
+    public Animation anim;
+    public Text messageDoor;
+    public Transform door;
+
+    /* fin animation porte */
+
     void Update()
     {
         int scorePlayer = 0;
@@ -57,9 +65,33 @@ public class Score : MonoBehaviour
 
             //Affichage du score
             scoreText.text = scorePlayer.ToString() + " / 4";
-
         }
+
+        /* animation porte */
+
+        messageDoor.gameObject.SetActive(false);
+
+        float dist_door = Vector3.Distance(gameObject.transform.position, door.position);
+
+        if (!(dist_door <= 1.9f) && scorePlayer == 4)
+            messageDoor.gameObject.SetActive(false);
+
+
+        if (dist_door <= 1.9f && scorePlayer == 4)
+        {
+            //affiche l'instruction pour récupéré la copie
+            messageDoor.gameObject.SetActive(true);
+            if (Input.GetKey(KeyCode.E))
+                anim.Play();
+        }
+        //Si joueur proche et appuie sur E
+        if (hasPlayer && Input.GetKey(KeyCode.E) && scorePlayer == 4)
+        {
+            anim.Play();
+            messageDoor.gameObject.SetActive(false);
+        }
+
+        /* fin animation porte */
+
     }
 }
-
-
